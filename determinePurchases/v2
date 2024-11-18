@@ -1,0 +1,27 @@
+from collections import deque
+
+def purchaseVolumes(volumes):
+    n = len(volumes)
+    buffer = deque()
+    max_owned = 0
+    result = []
+
+    for day in range(n):
+        buffer.append(volumes[day])
+        purchased_today = []
+        while buffer and max_owned + 1 in buffer:
+            next_volume = max_owned + 1
+            buffer.remove(next_volume)
+            purchased_today.append(next_volume)
+            max_owned += 1
+
+        if purchased_today:
+            result.append(purchased_today)
+        else:
+            result.append([-1])
+
+    return result
+
+
+volumes = [2, 1, 4, 3]
+print(purchaseVolumes(volumes))
