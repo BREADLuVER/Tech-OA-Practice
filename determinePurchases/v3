@@ -1,0 +1,37 @@
+import heapq
+from collections import deque
+
+def purchaseVolumes(volumes):
+    # current_volume = 1
+    # min_heap
+    # if min_heap[0] = cv
+    # temp.append(heapify.popleft())
+
+    cv = 1
+    min_heap = []
+    ans = []
+
+    for v in volumes:
+        purchases_today = []
+        heapq.heappush(min_heap, v)
+        print(min_heap)
+        while min_heap and min_heap[0] == cv:
+            purchases_today.append(min_heap[0])
+            heapq.heappop(min_heap)
+            cv += 1
+        
+        if purchases_today:
+            ans.append(purchases_today)
+        else:
+            ans.append([-1])
+
+    return ans
+
+volumes = [2, 1, 4, 3]
+print(purchaseVolumes(volumes))
+
+data = [2, 1, 4, 3]
+min_heap = []
+for d in data:
+    heapq.heappush(min_heap, d)
+print(min_heap)
