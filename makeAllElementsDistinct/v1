@@ -1,0 +1,19 @@
+from collections import deque
+from typing import List
+
+def makeAllElementsDistinct(n: int, identifier: List[int]) -> int:
+    identify = deque(identifier)
+    print(identify)
+    operations = 0
+    while identify:
+        if len(identify) == len(set(identify)):
+            return operations
+        operations += 1
+        identify.popleft()
+    
+    return operations
+
+
+identifier = [2, 3, 2, 1, 5, 2]
+n = 6
+print(makeAllElementsDistinct(n, identifier))
