@@ -4,10 +4,13 @@ from typing import List
 def makeAllElementsDistinct(n: int, identifier: List[int]) -> int:
     identify = deque(identifier)
     count = Counter(identify)
+    print(identify)
+    print(count)
     operations = 0
 
     while len(count) != len(identify):
         num = identify.popleft()
+        print(identify)
         if count[num] > 1:
             count[num] -= 1
         else:
