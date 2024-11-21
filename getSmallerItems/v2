@@ -1,0 +1,29 @@
+from typing import List
+from bisect import bisect_left
+
+def getSmallerItems(items: List[int], start: List[int], end: List[int], query: List[int]) -> List[int]:
+    picked = []
+    for i in range(len(start)):
+        left, right = start[i], end[i]
+        picked.append(sorted(items[left:right+1]))
+    
+    ans = []
+    for q in query:
+        count = 0
+        for p in picked:
+            count += bisect_left(p, q)
+        ans.append(count)
+
+    return count
+
+items = [1, 2, 5, 4, 5]
+start = [0, 0, 1]
+end = [1, 2, 2]
+query = [2, 4]
+print(getSmallerItems(items, start, end, query))
+
+items = [1, 2, 3, 2, 4, 1]
+start = [2, 0]
+end = [4, 0]
+query = [5, 3]
+print(getSmallerItems(items, start, end, query))
