@@ -1,0 +1,30 @@
+from collections import Counter
+
+def topKFrequent(nums, k):
+    # Step 1: Build the frequency map
+    freq_map = Counter(nums)
+    
+    # Step 2: Sort the unique elements by frequency in descending order
+    unique_elements = sorted(freq_map.keys(), key=lambda x: -freq_map[x])
+    
+    # Step 3: Define DFS to explore top k elements
+    def dfs(idx, k, result):
+        # Base case: If we have collected k elements, return
+        if len(result) == k:
+            return result
+
+        # Explore the current index if valid
+        if idx < len(unique_elements):
+            # Add the current element
+            result.append(unique_elements[idx])
+            # Recursively call DFS for the next index
+            dfs(idx + 1, k, result)
+
+        return result
+
+    # Step 4: Call DFS and collect the result
+    return dfs(0, k, [])
+
+# Test cases
+print(topKFrequent([1,1,1,2,2,3], 2))  # Output: [1, 2]
+print(topKFrequent([1], 1))            # Output: [1]

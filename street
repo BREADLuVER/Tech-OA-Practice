@@ -1,0 +1,72 @@
+class Node:
+    def __init__(self, row, col):
+        self.row = row
+        self.col = col
+        self.prev = None
+        self.next = None
+        self.up = None
+        self.down = None
+
+def build_linked_list(grid):
+    rows, cols = len(grid), len(grid[0])
+    nodes = [[Node(r, c) for c in range(cols)] for r in range(rows)]
+
+    directions = {
+        1: [(0, -1, 'prev'), (0, 1, 'next')],   # left, right
+        2: [(-1, 0, 'up'), (1, 0, 'down')],     # up, down
+        3: [(0, -1, 'prev'), (1, 0, 'down')],   # left, down
+        4: [(0, 1, 'next'), (1, 0, 'down')],    # right, down
+        5: [(0, -1, 'prev'), (-1, 0, 'up')],    # left, up
+        6: [(0, 1, 'next'), (-1, 0, 'up')],     # right, up
+    }
+
+    for r in range(rows):
+        for c in range(cols):
+            street_type = grid[r][c]
+            for dr, dc, direction in directions[street_type]:
+                nr, nc = r + dr, c + dc
+                if 0 <= nr < rows and 0 <= nc < cols:
+                    if direction == 'prev':
+                        nodes[r][c].prev = nodes[nr][nc]
+                    elif direction == 'next':
+                        nodes[r][c].next = nodes[nr][nc]
+                    elif direction == 'up':
+                        nodes[r][c].up = nodes[nr][nc]
+                    elif direction == 'down':
+                        nodes[r][c].down = nodes[nr][nc]
+
+    return nodes
+
+def traverse_linked_list(grid):
+    rows, cols = len(grid), len(grid[0])
+    nodes = build_linked_list(grid)
+    start = nodes[0][0]
+    end = nodes[rows - 1][cols - 1]
+    
+    visited = set()
+
+    def dfs(node):
+        if not node or node in visited:
+            return False
+        if node == end:
+            return True
+        visited.add(node)
+
+        # Traverse all possible directions
+        return (
+            dfs(node.prev) or
+            dfs(node.next) or
+            dfs(node.up) or
+            dfs(node.down)
+        )
+    
+    return dfs(start)
+
+# Test cases
+grid1 = [[2, 4, 3], [6, 5, 2]]
+grid2 = [[1, 2, 1], [1, 2, 1]]
+grid3 = [[1, 1, 2]]
+
+print(traverse_linked_list(grid1))  # Output: True
+print(traverse_linked_list(grid2))  # Output: False
+print(traverse_linked_list(grid3))  # Output: False
